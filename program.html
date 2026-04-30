@@ -1,0 +1,723 @@
+
+<style>
+  :root {
+    --ls-black: #0f0f0f;
+    --ls-green: #5DBE6A;
+    --ls-green-dark: #3d9e4a;
+    --ls-white: #ffffff;
+    --ls-gray: #888;
+    --ls-surface: #1a1a1a;
+    --ls-light-bg: #f7f7f5;
+    --ls-light-surface: #efefec;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans, system-ui, sans-serif); }
+  .ls-site { width: 100%; background: var(--color-background-primary); }
+
+  /* NAV — 3-col layout: links left, logo center, CTA right */
+  .ls-nav {
+    background: var(--ls-black);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 18px 32px;
+    border-bottom: 1px solid #222;
+    gap: 16px;
+  }
+  .ls-nav-links {
+    display: flex; gap: 28px; align-items: center;
+    justify-self: start;
+  }
+  .ls-nav-link { font-size: 13px; color: #aaa; text-decoration: none; }
+  .ls-nav-link.active { color: var(--ls-green); }
+  .ls-nav-center { justify-self: center; }
+  .ls-nav-wordmark-img {
+    height: 32px; width: auto; display: block;
+  }
+  .ls-nav-right { justify-self: end; }
+  .ls-nav-cta {
+    background: var(--ls-green);
+    color: var(--ls-black);
+    font-size: 13px; font-weight: 500;
+    padding: 9px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+  @media (max-width: 700px) {
+    .ls-nav { grid-template-columns: 1fr; gap: 10px; padding: 14px 20px; text-align: center; }
+    .ls-nav-links, .ls-nav-center, .ls-nav-right { justify-self: center; }
+    .ls-nav-links { gap: 18px; }
+  }
+
+  /* HERO */
+  .ls-hero {
+    background: var(--ls-black);
+    padding: 80px 32px 72px;
+    text-align: center;
+  }
+  .ls-hero-badge {
+    display: inline-block;
+    background: rgba(93,190,106,0.12);
+    border: 1px solid rgba(93,190,106,0.35);
+    color: var(--ls-green);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 99px;
+    margin-bottom: 28px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .ls-hero h1 {
+    font-size: 44px;
+    font-weight: 500;
+    color: white;
+    line-height: 1.15;
+    max-width: 640px;
+    margin: 0 auto 20px;
+    letter-spacing: -1px;
+  }
+  .ls-hero h1 span { color: var(--ls-green); }
+  .ls-hero-sub {
+    font-size: 17px;
+    color: #999;
+    max-width: 520px;
+    margin: 0 auto 36px;
+    line-height: 1.65;
+  }
+  .ls-hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .ls-btn-primary {
+    background: var(--ls-green);
+    color: var(--ls-black);
+    font-size: 15px; font-weight: 500;
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none; cursor: pointer; border: none;
+    display: inline-block;
+  }
+  .ls-btn-secondary {
+    background: transparent;
+    color: white;
+    font-size: 15px;
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    text-decoration: none; cursor: pointer;
+    display: inline-block;
+  }
+
+  /* SECTION FRAMEWORK */
+  .ls-section { padding: 72px 32px; max-width: 760px; margin: 0 auto; }
+  .ls-section-label {
+    font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--ls-green); margin-bottom: 16px;
+  }
+  .ls-section h2 {
+    font-size: 30px; font-weight: 500; line-height: 1.25;
+    color: var(--color-text-primary);
+    letter-spacing: -0.5px; margin-bottom: 16px;
+  }
+  .ls-section-body { font-size: 16px; color: var(--color-text-secondary); line-height: 1.7; }
+  .ls-divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 0; }
+  .ls-green-divider { border: none; border-top: 2px solid var(--ls-green); width: 40px; margin: 0 0 24px; }
+
+  /* DARK SECTION */
+  .ls-dark-section {
+    background: var(--ls-black);
+    padding: 72px 32px;
+  }
+  .ls-dark-inner { max-width: 760px; margin: 0 auto; }
+  .ls-dark-section .ls-section-label { color: var(--ls-green); }
+  .ls-dark-section h2 { color: white; font-size: 30px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 16px; }
+  .ls-dark-section .ls-section-body { color: #999; }
+
+  /* PHASE OVERVIEW */
+  .ls-phase-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+    margin-top: 36px;
+  }
+  .ls-phase {
+    border-radius: 12px;
+    border: 1.5px solid var(--ls-green);
+    background: var(--color-background-secondary);
+    padding: 26px 22px;
+  }
+  .ls-phase-num {
+    display: inline-block;
+    font-size: 11px; font-weight: 500; letter-spacing: 1px;
+    color: var(--ls-green); text-transform: uppercase;
+    margin-bottom: 14px;
+    background: rgba(93,190,106,0.12);
+    border: 1px solid rgba(93,190,106,0.3);
+    padding: 4px 10px; border-radius: 99px;
+  }
+  .ls-phase h4 { font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; }
+  .ls-phase p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+
+  /* PILLARS DETAILED */
+  .ls-pillar-cards {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-top: 32px;
+  }
+  .ls-pillar-card {
+    background: #1a1a1a;
+    border: 1.5px solid var(--ls-green);
+    border-radius: 12px; padding: 22px;
+  }
+  .ls-pillar-card.full { grid-column: 1/-1; }
+  .ls-pillar-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .ls-pillar-badge {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(93,190,106,0.15);
+    border: 1px solid rgba(93,190,106,0.4);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ls-green); font-weight: 500; font-size: 14px;
+    flex-shrink: 0;
+  }
+  .ls-pillar-card h4 { font-size: 16px; font-weight: 500; color: white; }
+  .ls-pillar-card p { font-size: 13px; color: #aaa; line-height: 1.6; }
+  .ls-pillar-target {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px; color: var(--ls-green); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    background: rgba(93,190,106,0.08);
+    border: 1px solid rgba(93,190,106,0.25);
+    padding: 4px 10px; border-radius: 6px;
+  }
+
+  /* WEEKLY CURRICULUM */
+  .ls-curriculum { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .ls-week-row {
+    display: grid; grid-template-columns: 96px 1fr;
+    background: var(--color-background-secondary);
+    border: 1.5px solid var(--ls-green);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .ls-week-tag {
+    background: rgba(93,190,106,0.10);
+    border-right: 1px solid rgba(93,190,106,0.25);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 16px 8px;
+  }
+  .ls-week-num { font-size: 22px; font-weight: 500; color: var(--ls-green); line-height: 1; }
+  .ls-week-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .ls-week-content { padding: 16px 20px; }
+  .ls-week-content h4 { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .ls-week-content p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; }
+
+  /* RESOURCE LIST */
+  .ls-resource-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-top: 28px;
+  }
+  .ls-resource {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: #1a1a1a; border: 1.5px solid var(--ls-green);
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .ls-resource-check {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(93,190,106,0.15);
+    border: 1px solid rgba(93,190,106,0.4);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .ls-resource-check svg { width: 11px; height: 11px; }
+  .ls-resource-title { font-size: 13px; font-weight: 500; color: white; }
+
+  /* INCLUDED LIST (deliverables) */
+  .ls-includes-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-top: 32px;
+  }
+  .ls-include-card {
+    background: var(--color-background-primary);
+    border: 1.5px solid var(--ls-green);
+    border-radius: 12px; padding: 22px;
+  }
+  .ls-include-card.featured {
+    grid-column: 1/-1;
+  }
+  .ls-include-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .ls-include-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(93,190,106,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--ls-green);
+  }
+  .ls-include-card h4 { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .ls-include-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+
+  /* PRICING */
+  .ls-pricing-card {
+    background: var(--ls-black);
+    border: 1.5px solid var(--ls-green);
+    border-radius: 16px; padding: 40px 36px;
+    max-width: 480px; margin: 36px auto 0;
+    text-align: center;
+  }
+  .ls-pricing-badge {
+    display: inline-block;
+    background: rgba(93,190,106,0.12);
+    border: 1px solid rgba(93,190,106,0.3);
+    color: var(--ls-green);
+    font-size: 11px; font-weight: 500;
+    padding: 5px 14px; border-radius: 99px;
+    margin-bottom: 24px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .ls-pricing-amount { font-size: 48px; font-weight: 500; color: white; letter-spacing: -1.5px; }
+  .ls-pricing-amount sup { font-size: 24px; vertical-align: top; margin-top: 10px; font-weight: 400; }
+  .ls-pricing-period { font-size: 13px; color: #666; margin: 6px 0 24px; }
+  .ls-pricing-features { list-style: none; text-align: left; margin-bottom: 28px; }
+  .ls-pricing-features li {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: #bbb; padding: 8px 0;
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .ls-pricing-features li:last-child { border-bottom: none; }
+  .ls-pricing-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ls-green); flex-shrink: 0; }
+
+  /* FAQ */
+  .ls-faq-list { margin-top: 32px; display: flex; flex-direction: column; gap: 8px; }
+  .ls-faq-item {
+    border-radius: 10px;
+    border: 1.5px solid var(--ls-green);
+    overflow: hidden;
+  }
+  .ls-faq-q {
+    padding: 18px 20px;
+    font-size: 14px; font-weight: 500; color: var(--color-text-primary);
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer;
+    background: var(--color-background-secondary);
+  }
+  .ls-faq-a {
+    padding: 0 20px 18px;
+    font-size: 13px; color: var(--color-text-secondary);
+    line-height: 1.65;
+    background: var(--color-background-secondary);
+  }
+
+  /* OUTCOME BANNER */
+  .ls-outcomes {
+    margin-top: 32px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  }
+  .ls-outcome {
+    background: rgba(93,190,106,0.08);
+    border: 1.5px solid var(--ls-green);
+    border-radius: 10px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .ls-outcome-icon {
+    font-size: 18px; color: var(--ls-green); margin-bottom: 6px;
+  }
+  .ls-outcome-text { font-size: 12px; color: #ddd; line-height: 1.4; }
+
+  /* FINAL CTA */
+  .ls-final-cta {
+    background: var(--ls-black);
+    padding: 80px 32px;
+    text-align: center;
+  }
+  .ls-final-cta h2 { font-size: 34px; font-weight: 500; color: white; letter-spacing: -0.7px; margin-bottom: 16px; line-height: 1.2; }
+  .ls-final-cta h2 span { color: var(--ls-green); }
+  .ls-final-cta p { font-size: 16px; color: #888; max-width: 460px; margin: 0 auto 36px; line-height: 1.65; }
+
+  /* FOOTER */
+  .ls-footer {
+    background: #0a0a0a;
+    border-top: 1px solid #1a1a1a;
+    padding: 56px 32px 44px;
+    text-align: center;
+  }
+  .ls-footer-logo-img {
+    width: 96px; height: auto;
+    margin: 0 auto 18px;
+    display: block;
+  }
+  .ls-footer p { font-size: 12px; color: #555; }
+
+  @media (max-width: 720px) {
+    .ls-phase-grid { grid-template-columns: 1fr; }
+    .ls-pillar-cards { grid-template-columns: 1fr; }
+    .ls-resource-grid { grid-template-columns: 1fr; }
+    .ls-includes-grid { grid-template-columns: 1fr; }
+    .ls-outcomes { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<div class="ls-site">
+
+  <!-- NAV: links left · secondary logo center · CTA right -->
+  <nav class="ls-nav">
+    <div class="ls-nav-links">
+      <a class="ls-nav-link" href="index.html">Home</a>
+      <a class="ls-nav-link active" href="#">Program</a>
+      <a class="ls-nav-link" href="faq.html">FAQ</a>
+    </div>
+    <div class="ls-nav-center">
+      <img class="ls-nav-wordmark-img" src="images/logo-secondary-dark.png" alt="LiveStrong Fitness">
+    </div>
+    <div class="ls-nav-right">
+      <a class="ls-nav-cta" href="booking.html">Book Free Call ↗</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="ls-hero">
+    <div class="ls-hero-badge">The 12-Week Lifestyle Transformation</div>
+    <h1>The complete program<br><span>that finally makes it stick.</span></h1>
+    <p class="ls-hero-sub">A step-by-step coaching experience built around the 5 Pillars of Progress, weekly mentorship, and a 15+ resource workbook — designed to transform how you train, eat, and think about fitness for the rest of your life.</p>
+    <div class="ls-hero-btns">
+      <a class="ls-btn-primary" href="booking.html">Book a Free Consultation ↗</a>
+      <a class="ls-btn-secondary" href="#curriculum">See What's Inside</a>
+    </div>
+  </section>
+
+  <!-- PROGRAM AT A GLANCE -->
+  <div style="background: var(--color-background-primary);">
+    <div class="ls-section">
+      <div class="ls-section-label">Program at a Glance</div>
+      <div class="ls-green-divider"></div>
+      <h2>Three phases. Twelve weeks. One transformation.</h2>
+      <p class="ls-section-body">Each phase builds on the last, layering in skills, intensity, and identity work in the right order — so nothing gets skipped and nothing gets overwhelming.</p>
+      <div class="ls-phase-grid">
+        <div class="ls-phase">
+          <span class="ls-phase-num">Phase 1 · Wks 1–4</span>
+          <h4>Build the Foundation</h4>
+          <p>Establish your baseline, lock in the 5 Pillars of Progress, and learn the fundamentals of training and nutrition with full structure and support.</p>
+        </div>
+        <div class="ls-phase">
+          <span class="ls-phase-num">Phase 2 · Wks 5–8</span>
+          <h4>Develop the System</h4>
+          <p>Layer in progressive overload, advanced nutrition strategies, and recovery work. This is where measurable results start showing up.</p>
+        </div>
+        <div class="ls-phase">
+          <span class="ls-phase-num">Phase 3 · Wks 9–12</span>
+          <h4>Cement the Change</h4>
+          <p>Break plateaus, build long-term habits, and transition into life after the program. You leave with a system — not a dependency.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="ls-divider">
+
+  <!-- THE 5 PILLARS -->
+  <div class="ls-dark-section">
+    <div class="ls-dark-inner">
+      <div class="ls-section-label">The 5 Pillars of Progress</div>
+      <h2>The five habits behind every result.</h2>
+      <p class="ls-section-body">Real transformation comes from consistently executing a small number of core habits. These five drive nearly all progress in strength, fat loss, and overall health — and they're the foundation we build everything on.</p>
+      <div class="ls-pillar-cards">
+        <div class="ls-pillar-card">
+          <div class="ls-pillar-header">
+            <div class="ls-pillar-badge">1</div>
+            <h4>Protein Intake</h4>
+          </div>
+          <p>Protein supports recovery, builds and maintains muscle, and keeps you full throughout the day. We dial in your individual target and build it into your meals from week one.</p>
+          <span class="ls-pillar-target">Target: 0.7–1g per lb of goal bodyweight</span>
+        </div>
+        <div class="ls-pillar-card">
+          <div class="ls-pillar-header">
+            <div class="ls-pillar-badge">2</div>
+            <h4>Strength Training</h4>
+          </div>
+          <p>Resistance training builds muscle, increases metabolism, strengthens bones, and improves mobility. Your structured workouts are designed around your level, schedule, and equipment.</p>
+          <span class="ls-pillar-target">Target: 3–5 structured sessions per week</span>
+        </div>
+        <div class="ls-pillar-card">
+          <div class="ls-pillar-header">
+            <div class="ls-pillar-badge">3</div>
+            <h4>Daily Movement</h4>
+          </div>
+          <p>Steps drive fat loss outside the gym, support cardiovascular health, and reinforce an active lifestyle. We set a realistic daily step goal that fits your life.</p>
+          <span class="ls-pillar-target">Target: 8,000–12,000 steps per day</span>
+        </div>
+        <div class="ls-pillar-card">
+          <div class="ls-pillar-header">
+            <div class="ls-pillar-badge">4</div>
+            <h4>Sleep</h4>
+          </div>
+          <p>Sleep is when your body repairs muscle, regulates hormones, and restores energy. We treat sleep as a performance habit, not an afterthought.</p>
+          <span class="ls-pillar-target">Target: 7–9 hours per night</span>
+        </div>
+        <div class="ls-pillar-card full">
+          <div class="ls-pillar-header">
+            <div class="ls-pillar-badge">5</div>
+            <h4>Hydration</h4>
+          </div>
+          <p>Hydration supports energy, digestion, training performance, and overall health. Simple guideline, daily target, and a habit you actually keep.</p>
+          <span class="ls-pillar-target">Target: ~½ your bodyweight in oz of water per day</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY CURRICULUM -->
+  <div id="curriculum" style="background: var(--color-background-primary);">
+    <div class="ls-section">
+      <div class="ls-section-label">Weekly Curriculum</div>
+      <div class="ls-green-divider"></div>
+      <h2>Twelve weeks. Twelve focused lessons.</h2>
+      <p class="ls-section-body">Each week introduces a new lesson, paired with weekly coaching, check-ins, and a habit scorecard. The progression is intentional — you learn what you need, when you need it.</p>
+      <div class="ls-curriculum">
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">1</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Beginner Blueprint + 5 Pillars of Progress</h4><p>Establish baseline, take starting metrics, and lock in the foundational habits that drive every result.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">2</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Calorie Tracking, Meal Planning & Weightlifting Mechanics</h4><p>Learn how to fuel your body and how to move under load — without obsession or overwhelm.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">3</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Eating Out Mastery</h4><p>Strategies to stay on track at restaurants and social events without missing out on the parts of life you love.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">4</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Understanding the Scale: Water Weight & Fluctuations</h4><p>Learn how to read the scale honestly — so daily noise stops derailing your progress.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">5</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Progressive Overload & Muscle Growth</h4><p>The simple system that keeps your training producing results, week after week.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">6</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Stretching & Flexibility</h4><p>Mobility work that protects your joints, improves your lifts, and keeps you moving well long-term.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">7</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Sleep Optimization</h4><p>Treat sleep as a performance habit. Recovery, hormones, and energy all start here.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">8</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Busy Week / Travel Protocol</h4><p>What to do when life gets in the way — simplified workouts and nutrition for chaotic weeks.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">9</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Breaking Through Plateaus</h4><p>Why progress stalls — and the practical levers to pull when it does.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">10</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Making Fitness Fit Your Life</h4><p>Build a long-term framework that flexes around your real schedule, not an idealized one.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">11</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Long-Term Nutrition & Maintenance</h4><p>How to eat like the person you've become — for life, not just the next 12 weeks.</p></div>
+        </div>
+        <div class="ls-week-row">
+          <div class="ls-week-tag"><div class="ls-week-num">12</div><div class="ls-week-label">Week</div></div>
+          <div class="ls-week-content"><h4>Final Progress Check + Next Steps</h4><p>Review your transformation, lock in your maintenance plan, and walk away with a system you own.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="ls-divider">
+
+  <!-- COMPLETE WORKBOOK CONTENTS -->
+  <div class="ls-dark-section">
+    <div class="ls-dark-inner">
+      <div class="ls-section-label">Client Workbook</div>
+      <h2>15+ resources. Yours to keep, forever.</h2>
+      <p class="ls-section-body">Every lesson lives inside a structured workbook you keep for life — a reference library you'll return to long after the program ends.</p>
+      <div class="ls-resource-grid">
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Beginner Blueprint</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">5 Pillars of Progress</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Habit Tracking System</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Calorie Tracking & Meal Planning</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Weightlifting Mechanics</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Eating Out Mastery Guide</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Understanding the Scale</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Progressive Overload & Muscle Growth</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Stretching & Flexibility</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Sleep Optimization</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Busy Week / Travel Protocol</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Breaking Through Plateaus</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Making Fitness Fit Your Life</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Long-Term Nutrition & Maintenance</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Daily 5-Minute Check-In</div></div>
+        <div class="ls-resource"><div class="ls-resource-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ls-resource-title">Weekly Pillar Scorecard</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT'S INCLUDED -->
+  <div style="background: var(--color-background-primary);">
+    <div class="ls-section">
+      <div class="ls-section-label">What's Included</div>
+      <div class="ls-green-divider"></div>
+      <h2>The complete coaching package.</h2>
+      <p class="ls-section-body">More than a workbook. More than a workout plan. A full coaching experience built to get you to the finish line — and beyond.</p>
+      <div class="ls-includes-grid">
+        <div class="ls-include-card featured">
+          <div class="ls-include-header">
+            <div class="ls-include-icon">◎</div>
+            <h4>Weekly 1:1 Coaching Sessions</h4>
+          </div>
+          <p>In-person or virtual. We review your week, adjust your approach, and keep you moving forward with a clear, personalized plan — not guesswork.</p>
+        </div>
+        <div class="ls-include-card">
+          <div class="ls-include-header">
+            <div class="ls-include-icon">↗</div>
+            <h4>Weekly Check-ins + Text Accountability</h4>
+          </div>
+          <p>Submit photos, weight, and habits each week. I respond personally — no auto-replies, no ignoring you.</p>
+        </div>
+        <div class="ls-include-card">
+          <div class="ls-include-header">
+            <div class="ls-include-icon">◈</div>
+            <h4>Customized Workout Programming</h4>
+          </div>
+          <p>Every workout is built around your starting point, your equipment, and your real schedule. Programmed week-by-week so progress never stalls.</p>
+        </div>
+        <div class="ls-include-card">
+          <div class="ls-include-header">
+            <div class="ls-include-icon">◆</div>
+            <h4>Personalized Nutrition Plan</h4>
+          </div>
+          <p>A custom calorie and macro target built around your body and goals — with simple meal frameworks and guidance on eating for the way you actually live.</p>
+        </div>
+        <div class="ls-include-card">
+          <div class="ls-include-header">
+            <div class="ls-include-icon">⊕</div>
+            <h4>Full Progress Tracking System</h4>
+          </div>
+          <p>Weight, photos, measurements, habit scorecards — all tracked weekly so you can actually see how far you've come.</p>
+        </div>
+        <div class="ls-include-card">
+          <div class="ls-include-header">
+            <div class="ls-include-icon">▶</div>
+            <h4>Training Video Library</h4>
+          </div>
+          <p>Short demo videos for every exercise in your program — proper form, common mistakes, and what to focus on. So you never have to guess if you're doing it right.</p>
+        </div>
+        <div class="ls-include-card">
+          <div class="ls-include-header">
+            <div class="ls-include-icon">◐</div>
+            <h4>Client Workbook (15+ Resources)</h4>
+          </div>
+          <p>Every lesson, system, and worksheet from the program — yours to keep, reference, and reuse for life.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="ls-divider">
+
+  <!-- OUTCOMES -->
+  <div class="ls-dark-section">
+    <div class="ls-dark-inner">
+      <div class="ls-section-label">Expected Outcomes</div>
+      <h2>What you walk away with.</h2>
+      <p class="ls-section-body">Twelve weeks of structured work pays off in tangible ways — physical, mental, and behavioral.</p>
+      <div class="ls-outcomes">
+        <div class="ls-outcome">
+          <div class="ls-outcome-icon">▲</div>
+          <div class="ls-outcome-text">Real, measurable progress in strength and body composition</div>
+        </div>
+        <div class="ls-outcome">
+          <div class="ls-outcome-icon">◆</div>
+          <div class="ls-outcome-text">A nutrition system you understand and can run on your own</div>
+        </div>
+        <div class="ls-outcome">
+          <div class="ls-outcome-icon">●</div>
+          <div class="ls-outcome-text">Confidence in the gym and around your own goals</div>
+        </div>
+        <div class="ls-outcome">
+          <div class="ls-outcome-icon">★</div>
+          <div class="ls-outcome-text">Long-term habits that survive vacations, holidays, and busy seasons</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div id="pricing" style="background: var(--color-background-primary);">
+    <div class="ls-section" style="text-align: center;">
+      <div class="ls-section-label">Investment</div>
+      <div class="ls-green-divider" style="margin: 0 auto 24px;"></div>
+      <h2>One investment. Lifetime skills.</h2>
+      <p class="ls-section-body">This isn't a gym membership you'll forget about. It's a complete transformation — with everything you need to never start over again.</p>
+      <div class="ls-pricing-card">
+        <div class="ls-pricing-badge">12-Week Lifestyle Transformation</div>
+        <div class="ls-pricing-amount"><sup>$</sup>1,800</div>
+        <div class="ls-pricing-period">One-time · Payment plans available</div>
+        <ul class="ls-pricing-features">
+          <li><span class="ls-pricing-dot"></span>12 weeks of 1:1 coaching</li>
+          <li><span class="ls-pricing-dot"></span>Weekly sessions (in-person or virtual)</li>
+          <li><span class="ls-pricing-dot"></span>Weekly check-ins + text accountability</li>
+          <li><span class="ls-pricing-dot"></span>Full progress tracking system</li>
+          <li><span class="ls-pricing-dot"></span>Complete Client Workbook (15+ resources)</li>
+          <li><span class="ls-pricing-dot"></span>Training video library (proper form for every exercise)</li>
+          <li><span class="ls-pricing-dot"></span>Customized workouts + nutrition</li>
+          <li><span class="ls-pricing-dot"></span>Identity & habit transformation framework</li>
+        </ul>
+        <a class="ls-btn-primary" style="width: 100%; font-size: 16px; padding: 16px; display: block; text-align: center; box-sizing: border-box;" href="booking.html">Book a Free Consultation ↗</a>
+        <p style="font-size: 12px; color: #555; margin-top: 14px;">Limited spots available. Free intro call required to ensure fit.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="ls-divider">
+
+  <!-- PROGRAM-SPECIFIC FAQ -->
+  <div style="background: var(--color-background-primary);">
+    <div class="ls-section">
+      <div class="ls-section-label">Program Questions</div>
+      <div class="ls-green-divider"></div>
+      <h2>What you're probably wondering.</h2>
+      <div class="ls-faq-list">
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">How much time will I need each week? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">Plan on 3–5 workouts (~45 min each), about 15 minutes for your weekly check-in, and 30 minutes for our coaching session. The rest is built into your daily life — steps, meals, sleep, hydration.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">What if I'm a complete beginner? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">The program was designed for beginners. Week 1 starts with foundations and the 5 Pillars. You don't need any prior experience — just a willingness to show up.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">In-person, virtual, or both? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">Both work. In-person sessions happen across Utah County and Salt Lake County. Virtual sessions are run live over video. Same coaching, same workbook, same results.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">What if I miss a week? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">Life happens. We adjust. The Busy Week / Travel Protocol exists for exactly this — so a hard week doesn't turn into the end of your progress.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">What happens after the 12 weeks? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">You leave with a long-term maintenance plan, a complete workbook, and the skills to keep going on your own. Continued coaching is available month-to-month for clients who want ongoing support.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">Do I need a gym? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">A gym helps but isn't required. We'll design your training around what you have — full gym, home setup, or minimal equipment.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL CTA / BOOK CALL -->
+  <div id="book-call" class="ls-final-cta">
+    <h2>Twelve weeks from now,<br><span>you'll wish you started today.</span></h2>
+    <p>The best next step is a free consultation call. We'll talk through your goals, your starting point, and whether this program is the right fit. No pressure, no commitment.</p>
+    <div class="ls-hero-btns">
+      <a class="ls-btn-primary" style="font-size: 16px; padding: 16px 36px;" href="booking.html">Book a Free Consultation ↗</a>
+      <a class="ls-btn-secondary" href="index.html">Back to Home</a>
+    </div>
+    <p style="font-size: 12px; color: #555; margin-top: 24px;">~20 minutes · Phone or video · Always free</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="ls-footer">
+    <img class="ls-footer-logo-img" src="images/logo-primary.png" alt="LiveStrong Fitness">
+    <p>Utah County + Salt Lake County · In-person & Virtual Coaching</p>
+    <p style="margin-top: 8px;">© 2025 LiveStrong Fitness · All Rights Reserved</p>
+  </div>
+
+</div>

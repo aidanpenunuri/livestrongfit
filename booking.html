@@ -1,0 +1,615 @@
+
+<style>
+  :root {
+    --ls-black: #0f0f0f;
+    --ls-green: #5DBE6A;
+    --ls-green-dark: #3d9e4a;
+    --ls-white: #ffffff;
+    --ls-gray: #888;
+    --ls-surface: #1a1a1a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans, system-ui, sans-serif); }
+  .ls-site { width: 100%; background: var(--color-background-primary); }
+
+  /* NAV — 3-col layout: links left, logo center, CTA right */
+  .ls-nav {
+    background: var(--ls-black);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 18px 32px;
+    border-bottom: 1px solid #222;
+    gap: 16px;
+  }
+  .ls-nav-links {
+    display: flex; gap: 28px; align-items: center;
+    justify-self: start;
+  }
+  .ls-nav-link { font-size: 13px; color: #aaa; text-decoration: none; }
+  .ls-nav-link.active { color: var(--ls-green); }
+  .ls-nav-center { justify-self: center; }
+  .ls-nav-wordmark-img { height: 32px; width: auto; display: block; }
+  .ls-nav-right { justify-self: end; }
+  .ls-nav-cta {
+    background: var(--ls-green);
+    color: var(--ls-black);
+    font-size: 13px; font-weight: 500;
+    padding: 9px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+  @media (max-width: 700px) {
+    .ls-nav { grid-template-columns: 1fr; gap: 10px; padding: 14px 20px; text-align: center; }
+    .ls-nav-links, .ls-nav-center, .ls-nav-right { justify-self: center; }
+    .ls-nav-links { gap: 18px; }
+  }
+
+  /* HERO */
+  .ls-hero {
+    background: var(--ls-black);
+    padding: 72px 32px 48px;
+    text-align: center;
+  }
+  .ls-hero-badge {
+    display: inline-block;
+    background: rgba(93,190,106,0.12);
+    border: 1px solid rgba(93,190,106,0.35);
+    color: var(--ls-green);
+    font-size: 12px; font-weight: 500;
+    padding: 6px 16px; border-radius: 99px;
+    margin-bottom: 22px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .ls-hero h1 {
+    font-size: 44px; font-weight: 500; color: white;
+    line-height: 1.15; max-width: 660px;
+    margin: 0 auto 16px; letter-spacing: -1px;
+  }
+  .ls-hero h1 span { color: var(--ls-green); }
+  .ls-hero-sub {
+    font-size: 17px; color: #999;
+    max-width: 540px; margin: 0 auto 8px;
+    line-height: 1.65;
+  }
+  .ls-hero-meta {
+    display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+    margin-top: 22px;
+  }
+  .ls-meta-pill {
+    font-size: 12px; color: #bbb;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid #2a2a2a;
+    border-radius: 99px;
+    padding: 6px 14px;
+  }
+  .ls-meta-pill span { color: var(--ls-green); margin-right: 6px; }
+
+  /* MAIN BOOKING SECTION (split layout) */
+  .ls-booking-wrap {
+    background: var(--color-background-primary);
+    padding: 56px 32px 72px;
+  }
+  .ls-booking-grid {
+    max-width: 1040px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  @media (max-width: 880px) { .ls-booking-grid { grid-template-columns: 1fr; } }
+
+  .ls-booking-card {
+    background: var(--color-background-secondary);
+    border: 1.5px solid var(--ls-green);
+    border-radius: 14px;
+    padding: 28px 26px;
+  }
+  .ls-booking-card h3 {
+    font-size: 18px; font-weight: 500; color: var(--color-text-primary);
+    margin-bottom: 6px; letter-spacing: -0.3px;
+  }
+  .ls-booking-card .ls-booking-sub {
+    font-size: 13px; color: var(--color-text-secondary);
+    margin-bottom: 22px; line-height: 1.55;
+  }
+  .ls-section-label {
+    font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--ls-green); margin-bottom: 14px;
+  }
+  .ls-green-divider {
+    border: none; border-top: 2px solid var(--ls-green);
+    width: 36px; margin: 0 0 20px;
+  }
+
+  /* SCHEDULER MOCKUP */
+  .ls-scheduler-step { font-size: 11px; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .ls-date-row {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+    margin-bottom: 18px;
+  }
+  .ls-date {
+    background: var(--color-background-primary);
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 10px 4px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--color-text-primary);
+    cursor: pointer;
+  }
+  .ls-date:hover { border-color: rgba(93,190,106,0.5); }
+  .ls-date.selected {
+    background: rgba(93,190,106,0.15);
+    border-color: var(--ls-green);
+    color: var(--ls-green);
+    font-weight: 500;
+  }
+  .ls-date-day { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .ls-date.selected .ls-date-day { color: var(--ls-green); }
+  .ls-date-num { font-size: 14px; font-weight: 500; }
+
+  .ls-time-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
+  }
+  .ls-time-slot {
+    background: var(--color-background-primary);
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-text-primary);
+    cursor: pointer;
+  }
+  .ls-time-slot:hover { border-color: rgba(93,190,106,0.5); }
+  .ls-time-slot.selected {
+    background: rgba(93,190,106,0.15);
+    border-color: var(--ls-green);
+    color: var(--ls-green);
+    font-weight: 500;
+  }
+  .ls-time-slot.disabled {
+    opacity: 0.35; cursor: not-allowed; text-decoration: line-through;
+  }
+
+  .ls-tz-note {
+    font-size: 11px; color: #888; margin-top: 16px; text-align: center;
+  }
+
+  /* INTAKE FORM */
+  .ls-form-row { margin-bottom: 14px; }
+  .ls-form-row label {
+    display: block; font-size: 12px; font-weight: 500;
+    color: var(--color-text-secondary); margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .ls-form-row input,
+  .ls-form-row textarea,
+  .ls-form-row select {
+    width: 100%;
+    background: var(--color-background-primary);
+    border: 1px solid #2a2a2a;
+    color: var(--color-text-primary);
+    padding: 11px 14px; border-radius: 8px;
+    font-size: 14px; font-family: inherit;
+  }
+  .ls-form-row input:focus,
+  .ls-form-row textarea:focus,
+  .ls-form-row select:focus {
+    outline: none; border-color: var(--ls-green);
+  }
+  .ls-form-row textarea { min-height: 88px; resize: vertical; }
+  .ls-radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ls-radio-pill {
+    flex: 1; min-width: 120px;
+    background: var(--color-background-primary);
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 13px; color: var(--color-text-primary);
+    cursor: pointer;
+  }
+  .ls-radio-pill:hover { border-color: rgba(93,190,106,0.5); }
+  .ls-radio-pill.selected {
+    background: rgba(93,190,106,0.15);
+    border-color: var(--ls-green);
+    color: var(--ls-green);
+    font-weight: 500;
+  }
+
+  .ls-confirm-btn {
+    background: var(--ls-green);
+    color: var(--ls-black);
+    font-size: 16px; font-weight: 500;
+    padding: 14px 24px;
+    border-radius: 8px; border: none;
+    width: 100%; cursor: pointer; margin-top: 6px;
+  }
+
+  .ls-fineprint {
+    font-size: 11px; color: #666; text-align: center;
+    margin-top: 12px; line-height: 1.55;
+  }
+
+  /* WHAT TO EXPECT SECTION */
+  .ls-expect-section {
+    background: var(--ls-black);
+    padding: 64px 32px;
+  }
+  .ls-expect-inner { max-width: 880px; margin: 0 auto; }
+  .ls-expect-section h2 {
+    color: white; font-size: 30px; font-weight: 500;
+    letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+  .ls-expect-section .ls-section-label { color: var(--ls-green); }
+  .ls-expect-section > div > p {
+    font-size: 16px; color: #999; line-height: 1.7;
+  }
+  .ls-expect-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-top: 32px;
+  }
+  .ls-expect-card {
+    background: #1a1a1a;
+    border: 1.5px solid var(--ls-green);
+    border-radius: 12px;
+    padding: 22px 20px;
+  }
+  .ls-expect-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(93,190,106,0.15);
+    border: 1px solid rgba(93,190,106,0.35);
+    color: var(--ls-green); font-size: 13px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+  }
+  .ls-expect-card h4 { color: white; font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .ls-expect-card p { color: #aaa; font-size: 13px; line-height: 1.6; }
+  @media (max-width: 720px) { .ls-expect-grid { grid-template-columns: 1fr; } }
+
+  /* AGENDA / WHAT WE'LL TALK ABOUT */
+  .ls-agenda-section {
+    background: var(--color-background-primary);
+    padding: 64px 32px;
+  }
+  .ls-agenda-inner { max-width: 720px; margin: 0 auto; }
+  .ls-agenda-section h2 {
+    font-size: 28px; font-weight: 500; color: var(--color-text-primary);
+    letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+  .ls-agenda-section > div > p {
+    font-size: 16px; color: var(--color-text-secondary); line-height: 1.7;
+  }
+  .ls-agenda-list { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .ls-agenda-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .ls-agenda-check {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(93,190,106,0.15);
+    border: 1px solid rgba(93,190,106,0.4);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .ls-agenda-check svg { width: 11px; height: 11px; }
+  .ls-agenda-item h4 { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+  .ls-agenda-item p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; }
+
+  /* TRUST / TESTIMONIAL STRIP */
+  .ls-trust-strip {
+    background: var(--ls-black);
+    padding: 56px 32px;
+  }
+  .ls-trust-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+  .ls-trust-strip .ls-section-label { color: var(--ls-green); }
+  .ls-trust-strip h2 {
+    color: white; font-size: 26px; font-weight: 500;
+    letter-spacing: -0.4px; margin-bottom: 20px;
+  }
+  .ls-trust-quote {
+    font-size: 16px; color: #ddd; line-height: 1.7; font-style: italic;
+    margin-bottom: 12px;
+  }
+  .ls-trust-attribution {
+    font-size: 13px; color: #999;
+  }
+  .ls-trust-stars { color: var(--ls-green); font-size: 14px; letter-spacing: 2px; margin-bottom: 14px; }
+
+  /* FAQ */
+  .ls-faq-section {
+    background: var(--color-background-primary);
+    padding: 64px 32px;
+  }
+  .ls-faq-inner { max-width: 720px; margin: 0 auto; }
+  .ls-faq-section h2 {
+    font-size: 28px; font-weight: 500; color: var(--color-text-primary);
+    letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+  .ls-faq-list { margin-top: 28px; display: flex; flex-direction: column; gap: 8px; }
+  .ls-faq-item {
+    border-radius: 10px;
+    border: 0.5px solid var(--color-border-tertiary);
+    overflow: hidden;
+  }
+  .ls-faq-q {
+    padding: 18px 20px;
+    font-size: 14px; font-weight: 500; color: var(--color-text-primary);
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer;
+    background: var(--color-background-secondary);
+  }
+  .ls-faq-a {
+    padding: 0 20px 18px;
+    font-size: 13px; color: var(--color-text-secondary);
+    line-height: 1.65;
+    background: var(--color-background-secondary);
+  }
+
+  /* FOOTER */
+  .ls-footer {
+    background: #0a0a0a;
+    border-top: 1px solid #1a1a1a;
+    padding: 56px 32px 44px;
+    text-align: center;
+  }
+  .ls-footer-logo-img {
+    width: 96px; height: auto;
+    margin: 0 auto 18px;
+    display: block;
+  }
+  .ls-footer p { font-size: 12px; color: #555; }
+</style>
+
+<div class="ls-site">
+
+  <!-- NAV: links left · secondary logo center · CTA right -->
+  <nav class="ls-nav">
+    <div class="ls-nav-links">
+      <a class="ls-nav-link" href="index.html">Home</a>
+      <a class="ls-nav-link" href="program.html">Program</a>
+      <a class="ls-nav-link" href="faq.html">FAQ</a>
+    </div>
+    <div class="ls-nav-center">
+      <img class="ls-nav-wordmark-img" src="images/logo-secondary-dark.png" alt="LiveStrong Fitness">
+    </div>
+    <div class="ls-nav-right">
+      <a class="ls-nav-cta active" href="#book">Book Free Call ↗</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="ls-hero">
+    <div class="ls-hero-badge">Free 20-Minute Consultation</div>
+    <h1>Let's see if this is the<br><span>right fit for you.</span></h1>
+    <p class="ls-hero-sub">A relaxed, no-pressure conversation to understand your goals, your starting point, and exactly how the LiveStrong program would work for your life.</p>
+    <div class="ls-hero-meta">
+      <div class="ls-meta-pill"><span>●</span>~20 minutes</div>
+      <div class="ls-meta-pill"><span>●</span>Phone or video</div>
+      <div class="ls-meta-pill"><span>●</span>Always free</div>
+      <div class="ls-meta-pill"><span>●</span>No commitment</div>
+    </div>
+  </section>
+
+  <!-- MAIN BOOKING -->
+  <!--
+    ════════════════════════════════════════════════════════════════════
+    TODO — REPLACE WITH REAL CALENDLY EMBED BEFORE LAUNCH
+    ════════════════════════════════════════════════════════════════════
+    The two-column section below (visual scheduler + intake form) is a
+    MOCKUP. To make booking actually work:
+
+    1. Sign up free at https://calendly.com (or https://cal.com)
+    2. Create a 20-minute "Free Consultation" event type
+    3. Set your weekly availability there (Mon/Wed 8–9am, Tue 8–noon, Thu–Sat 8am–1pm)
+    4. Add custom intake questions (name, phone, meeting type, main goal, notes)
+    5. Click "Share" → "Inline Embed" → copy the snippet
+    6. Paste it INSIDE the <div id="book"> below, replacing the entire
+       <div class="ls-booking-grid">…</div> block
+
+    Calendly handles scheduling AND the intake form in one widget, so
+    you can delete the mockup form on the right side at the same time.
+    ════════════════════════════════════════════════════════════════════
+  -->
+  <div id="book" class="ls-booking-wrap">
+  <div style="max-width: 1040px; margin: 0 auto;">
+    <!-- ↓ Paste your Calendly snippet here ↓ -->
+    <!-- Calendly inline widget begin -->
+<div class="calendly-inline-widget" data-url="https://calendly.com/aidanpenunuri/30min?primary_color=5dbe6a" style="min-width:320px;height:700px;"></div>
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<!-- Calendly inline widget end -->
+    <!-- ↑ Paste your Calendly snippet here ↑ -->
+  </div>
+</div>
+
+  <!-- WHAT TO EXPECT -->
+  <div class="ls-expect-section">
+    <div class="ls-expect-inner">
+      <div class="ls-section-label">What to Expect</div>
+      <h2>Here's exactly how the call will go.</h2>
+      <p>No mystery, no sales script. Just a structured 20-minute conversation built to give you clarity — whether you sign up afterward or not.</p>
+      <div class="ls-expect-grid">
+        <div class="ls-expect-card">
+          <div class="ls-expect-num">1</div>
+          <h4>Get to know you (~5 min)</h4>
+          <p>Where you're at right now, what you've tried before, and what's actually been getting in the way.</p>
+        </div>
+        <div class="ls-expect-card">
+          <div class="ls-expect-num">2</div>
+          <h4>Talk through your goals (~10 min)</h4>
+          <p>What "success" looks like for you — physically, mentally, and in your day-to-day life. We'll get specific.</p>
+        </div>
+        <div class="ls-expect-card">
+          <div class="ls-expect-num">3</div>
+          <h4>See if we're a fit (~5 min)</h4>
+          <p>I'll walk you through how the program would work for someone in your position. If it's a fit, great. If not, I'll point you somewhere better.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENDA -->
+  <div class="ls-agenda-section">
+    <div class="ls-agenda-inner">
+      <div class="ls-section-label">What We'll Cover</div>
+      <div class="ls-green-divider"></div>
+      <h2>The questions worth asking.</h2>
+      <p>The goal is to leave you with real clarity — not a sales pitch. Here's what we'll actually talk about:</p>
+      <div class="ls-agenda-list">
+        <div class="ls-agenda-item">
+          <div class="ls-agenda-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h4>What's actually been keeping you stuck</h4><p>The honest version — not the version we usually tell ourselves.</p></div>
+        </div>
+        <div class="ls-agenda-item">
+          <div class="ls-agenda-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h4>Your real schedule and lifestyle</h4><p>Workouts, meals, work, family — what's available and what's non-negotiable.</p></div>
+        </div>
+        <div class="ls-agenda-item">
+          <div class="ls-agenda-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h4>What "winning" looks like for you</h4><p>Specific outcomes — body, energy, confidence, identity — by the end of 12 weeks.</p></div>
+        </div>
+        <div class="ls-agenda-item">
+          <div class="ls-agenda-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h4>How the program would look for you</h4><p>Walk-through of the 12-week structure, customized to your starting point.</p></div>
+        </div>
+        <div class="ls-agenda-item">
+          <div class="ls-agenda-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5DBE6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><h4>Whether it's the right next step</h4><p>If it is, we'll talk through next steps. If it's not, you'll leave with honest direction either way.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRUST / TESTIMONIAL -->
+  <div class="ls-trust-strip">
+    <div class="ls-trust-inner">
+      <div class="ls-section-label">Why Clients Book the Call</div>
+      <div class="ls-trust-stars">★★★★★</div>
+      <p class="ls-trust-quote">"I almost didn't book the call. I'm so glad I did. There was zero pressure — Aidan asked good questions, gave me real direction, and I left knowing exactly what to do next."</p>
+      <p class="ls-trust-attribution">— Sarah M., Lost 22 lbs · Utah County</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div id="faq" class="ls-faq-section">
+    <div class="ls-faq-inner">
+      <div class="ls-section-label">Booking Questions</div>
+      <div class="ls-green-divider"></div>
+      <h2>What people ask before booking.</h2>
+      <div class="ls-faq-list">
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">Is the call really free? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">Yes — completely free, with no obligation. The only goal is for both of us to figure out if the program is a good fit for you.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">Will you try to sell me on the call? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">No high-pressure pitch. If the program is a fit, I'll explain how it works and what next steps look like. If it's not, I'll tell you that too — and point you toward something more useful.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">What if I'm not ready to commit yet? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">That's normal — and totally fine. Most people book the call just to get clarity. You can use what we discuss whenever you're ready, even if that's months from now.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">What should I prepare before the call? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">Nothing. Show up as you are. If you want to be helpful, jot down 1–2 specific goals and what's been getting in the way. That's plenty.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">What if I need to reschedule? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">No problem at all. Use the link in your confirmation email to reschedule any time before the call.</div>
+        </div>
+        <div class="ls-faq-item">
+          <div class="ls-faq-q">In-person, video, or phone? <span style="color:var(--ls-green);">+</span></div>
+          <div class="ls-faq-a">Whatever's easiest for you. In-person works if you're in Utah County or Salt Lake County. Otherwise video or phone is great.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="ls-footer">
+    <img class="ls-footer-logo-img" src="images/logo-primary.png" alt="LiveStrong Fitness">
+    <p>Utah County + Salt Lake County · In-person & Virtual Coaching</p>
+    <p style="margin-top: 8px;">© 2025 LiveStrong Fitness · All Rights Reserved</p>
+  </div>
+
+</div>
+
+<script>
+  // Aidan's actual weekly availability (Mountain Time)
+  const SCHEDULE_BY_DAY = {
+    Mon: ['8:00 AM', '9:00 AM'],
+    Tue: ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM'],
+    Wed: ['8:00 AM', '9:00 AM'],
+    Thu: ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM'],
+    Fri: ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM'],
+    Sat: ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM']
+  };
+
+  // Some slots booked already (scarcity). Keyed by "day date | time".
+  const BOOKED_SLOTS = new Set([
+    'Mon May 4|9:00 AM',
+    'Tue May 5|10:00 AM',
+    'Wed May 6|8:00 AM',
+    'Thu May 7|11:00 AM',
+    'Thu May 7|1:00 PM',
+    'Fri May 8|9:00 AM',
+    'Sat May 9|12:00 PM',
+    'Mon May 11|8:00 AM'
+  ]);
+
+  function renderTimes(dayEl) {
+    const day = dayEl.dataset.day;
+    const dateLabel = dayEl.dataset.date;
+    const slots = SCHEDULE_BY_DAY[day] || [];
+    const grid = document.getElementById('ls-time-grid');
+    const label = document.getElementById('ls-times-label');
+    label.textContent = `Available times — ${day} ${dateLabel}`;
+    grid.innerHTML = '';
+    slots.forEach(time => {
+      const el = document.createElement('div');
+      el.className = 'ls-time-slot';
+      el.textContent = time;
+      const key = `${day} ${dateLabel}|${time}`;
+      if (BOOKED_SLOTS.has(key)) {
+        el.classList.add('disabled');
+      } else {
+        el.addEventListener('click', () => {
+          grid.querySelectorAll('.ls-time-slot').forEach(t => t.classList.remove('selected'));
+          el.classList.add('selected');
+        });
+      }
+      grid.appendChild(el);
+    });
+  }
+
+  // Date selection
+  document.querySelectorAll('.ls-date').forEach(el => {
+    el.addEventListener('click', () => {
+      el.parentElement.querySelectorAll('.ls-date').forEach(d => d.classList.remove('selected'));
+      el.classList.add('selected');
+      renderTimes(el);
+    });
+  });
+
+  // Initialize with the currently selected date
+  const initialDate = document.querySelector('.ls-date.selected');
+  if (initialDate) renderTimes(initialDate);
+
+  // Radio pill behavior — also updates the matching hidden input so the
+  // selection is included in the form submission to Formspree.
+  document.querySelectorAll('.ls-radio-group').forEach(group => {
+    const fieldName = group.dataset.field;
+    const hiddenInput = fieldName
+      ? group.parentElement.querySelector(`input[type="hidden"][name="${fieldName}"]`)
+      : null;
+    group.querySelectorAll('.ls-radio-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        group.querySelectorAll('.ls-radio-pill').forEach(p => p.classList.remove('selected'));
+        pill.classList.add('selected');
+        if (hiddenInput && pill.dataset.value) hiddenInput.value = pill.dataset.value;
+      });
+    });
+  });
+</script>
